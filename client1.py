@@ -22,7 +22,3 @@ class EchoClient(asyncore.dispatcher_with_send):
 client = EchoClient("こんにちは")
 client.connect(('localhost', 8080))
 asyncore.loop()
-
-client = EchoClient("さよなら")
-client.connect(('localhost', 8080))
-asyncore.loop()
