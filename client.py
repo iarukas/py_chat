@@ -61,12 +61,15 @@ def idle_task(root):
     try:
         asyncore.loop(count=1, timeout=1)
     finally:
-        root.after(200, functools.partial(idle_task, root))
-    
+        wrapped_func = functools.partial(idle_task, root)
+        functools.update_wrapper(wrapped_func, idle_task)
+        root.after(200, wrapped_func)
 
 def main():
     root = tkinter.Tk()
-    root.after(200, functools.partial(idle_task, root))
+    wrapped_func = functools.partial(idle_task, root)
+    functools.update_wrapper(wrapped_func, idle_task)
+    root.after(200, wrapped_func)
     view = EchoView(root)
     view.pack(expand=True, fill=tkinter.BOTH)
     client = EchoClient(view)
